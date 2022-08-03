@@ -1,25 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import { useState } from "react";
+import Axios from "axios";
+import "./App.css";
+import { DICTIONATY_API } from "./constants/constants";
+import { RANDOM_WORD_GENERATOR_API } from "./constants/constants";
 
 function App() {
+  const [data, setData] = useState("");
+  const [searchWord, setSearchWord] = useState("");
+ 
+  function getMeaning() {
+    Axios.get(
+      `https://api.dictionaryapi.dev/api/v2/entries/en_US/${searchWord}`
+    ).then((response) => {
+      setData(response.data);
+    });
+  }
+
+  function getRandomWord() {
+    Axios.get(
+      `$RANDOM_WORD_GENERATR_API${searchWord}`
+    ).then((response) => {
+      setData(response.data[0]);
+    });
+  }
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className="App">
+      <div className="searchBox">
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={(e) => {
+            setSearchWord(e.target.value);
+          } } />
+        <button
+          onClick={() => {
+            getMeaning();
+          } }
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          Search
+        </button>
+      </div>
+      <div className="searchBox2">
+        <h1>WORD OF THE DAY</h1>
+        <h2>Hello: Used as a greeting or to begin a phone conversation</h2> 
+      </div>
+      {data && ( 
+      <div className="showResults">
+        <h2>
+          {data}{" "}</h2>
+          <h3>Definition:</h3>
+          console.log({data});
+            <p>{data}</p>
+      </div>
+      )}
+  </div>
   );
 }
 

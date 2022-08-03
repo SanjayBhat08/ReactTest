@@ -50,10 +50,9 @@ function App() {
       {data && ( 
       <div className="showResults">
         <h2>
-          {data}{" "}</h2>
+          {data.word}{" "}</h2>
           <h3>Definition:</h3>
-          console.log({data});
-            <p>{data}</p>
+            <p>{data.meanings[0].definitions[0].definition}</p>
       </div>
       )}
   </div>
